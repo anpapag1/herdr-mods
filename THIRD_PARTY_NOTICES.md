@@ -5,18 +5,11 @@ parts, and the original copyright notices are kept here as the licences require.
 
 | Part | Based on | Licence | Copyright |
 |---|---|---|---|
-| `mods/filetree` (behaviour and git/command parsing in `bridge.ts`) | claude-code-filetree | MIT | (c) 2026 Kurt Buhler |
-| `mods/ci-dash` | ci-dash-app from herdr-plugins | MIT | (c) 2026 Douglas Cunha |
-| `mods/ci-dash/yaml.js` | `yaml` 2.8.1 | ISC (`mods/ci-dash/yaml.LICENSE`) | Eemeli Aro |
-| `mods/file-icons/icons`, `icons.js`, `mods/filetree/icons.js` | Material Icon Theme | MIT (`LICENSE-material-icon-theme.txt`) | (c) 2025 Material Extensions |
-| `mods/file-icons`, `mods/nightfall-*` | mods shipped with the Herdr app | Apache-2.0 | Herdr |
-| `mods/nightfall-*`, `layouts/nightfall.*`, `themes/nightfall.json` | the Noctua layout | none published (see below) | its author |
-| `mods/nightfall-chrome/fonts` | Geist Mono | SIL Open Font License 1.1 (`fonts/OFL.txt`) | (c) 2023 Vercel, with basement.studio |
-
-The Nightfall layout started as a copy of the Noctua layout for Herdr, which its repository
-publishes without a licence file. Its parts here are renamed and changed. The Geist Mono
-fonts are renamed to Geist Mono Nightfall, as the Open Font License allows for modified
-versions.
+| `filetree/mods/filetree` (behaviour and git/command parsing in `bridge.ts`) | claude-code-filetree | MIT | (c) 2026 Kurt Buhler |
+| `ci-dash/mods/ci-dash` | ci-dash-app from herdr-plugins | MIT | (c) 2026 Douglas Cunha |
+| `ci-dash/mods/ci-dash/yaml.js` | `yaml` 2.8.1 | ISC (`yaml.LICENSE` beside it) | Eemeli Aro |
+| `*/mods/file-icons/icons`, `icons.js`, `filetree/mods/filetree/icons.js` | Material Icon Theme | MIT (`LICENSE-material-icon-theme.txt`) | (c) 2025 Material Extensions |
+| `*/mods/file-icons` | the `files` mod shipped with the Herdr app | Apache-2.0 | Herdr |
 
 ## MIT licence text (claude-code-filetree, herdr-plugins, Material Icon Theme)
 
@@ -39,4 +32,4 @@ DEALINGS IN THE SOFTWARE.
 ## Apache-2.0 (Herdr's shipped mods)
 
 Licensed under the Apache License, Version 2.0: https://www.apache.org/licenses/LICENSE-2.0.
-The files listed above were modified: restyled, renamed, and given new features.
+The files listed above were modified: restyled and given new features.

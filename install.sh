@@ -1,9 +1,10 @@
 #!/bin/sh
-# Copies this repo's Herdr mods, layout and theme into the Herdr app home and checks each
-# mod. Existing folders and files are skipped unless --force is given.
+# Copies every Herdr mod in this repo (each <folder>/mods/<name>/) into the Herdr app home,
+# checks each one, and installs session-bar's Claude Code plugin. Existing mods are skipped
+# unless --force is given.
 #
 #   ./install.sh            install, keep anything you already have
-#   ./install.sh --force    replace existing mods, layout and theme of the same names
+#   ./install.sh --force    replace existing mods of the same names
 #
 # HERDR_APP_HOME picks another app home (default ~/.config/herdr-app).
 set -eu
@@ -17,31 +18,28 @@ if [ ! -d "$home_dir" ]; then
   echo "No Herdr app home at $home_dir. Start the Herdr app once, then run this again." >&2
   exit 1
 fi
-mkdir -p "$home_dir/mods" "$home_dir/layouts" "$home_dir/themes"
+mkdir -p "$home_dir/mods"
 
-put() { # put <source> <target>
-  if [ -e "$2" ] && [ "$force" -eq 0 ]; then
-    echo "skip   $2 (exists; --force replaces it)"
-    return 1
-  fi
-  rm -rf "$2"
-  cp -R "$1" "$2"
-  echo "added  $2"
-}
-
-for mod in "$here"/mods/*/; do
+done_list=" "
+for mod in "$here"/*/mods/*/; do
   name=$(basename "$mod")
-  if put "$mod" "$home_dir/mods/$name"; then
-    if command -v herdr-app >/dev/null 2>&1; then
-      herdr-app check "$home_dir/mods/$name" >/dev/null 2>&1 \
-        && echo "       check passed" \
-        || echo "       check FAILED: run herdr-app check $home_dir/mods/$name"
-    fi
+  # filetree's folder carries file-icons too; copy each mod once.
+  case "$done_list" in *" $name "*) continue ;; esac
+  done_list="$done_list$name "
+  target="$home_dir/mods/$name"
+  if [ -e "$target" ] && [ "$force" -eq 0 ]; then
+    echo "skip   $target (exists; --force replaces it)"
+    continue
+  fi
+  rm -rf "$target"
+  cp -R "$mod" "$target"
+  echo "added  $target"
+  if command -v herdr-app >/dev/null 2>&1; then
+    herdr-app check "$target" >/dev/null 2>&1 \
+      && echo "       check passed" \
+      || echo "       check FAILED: run herdr-app check $target"
   fi
 done
-put "$here/layouts/nightfall.json" "$home_dir/layouts/nightfall.json" || true
-put "$here/layouts/nightfall.svg" "$home_dir/layouts/nightfall.svg" || true
-put "$here/themes/nightfall.json" "$home_dir/themes/nightfall.json" || true
 
 # session-bar's other half runs inside Claude Code and sends it Claude's numbers.
 if command -v claude >/dev/null 2>&1; then
@@ -53,14 +51,14 @@ if command -v claude >/dev/null 2>&1; then
     echo "       Claude Code plugin FAILED: run claude plugin install session-bar@herdr-mods"
   fi
 else
-  echo "skip   Claude Code plugin session-bar (no claude command; see mods/session-bar/README.md)"
+  echo "skip   Claude Code plugin session-bar (no claude command; see session-bar/README.md)"
 fi
 
 cat <<MSG
 
 Done. Next:
-  herdr-app do layout.switch --name nightfall     # or ctrl-shift-l
+  put the mods in your layout; each folder's README.md shows its block
   restart Claude Code sessions so the session-bar plugin loads
 Optional: claude plugin install cc-model-router@herdr-mods
-Optional: the filetree activity hook, see mods/filetree/README.md.
+Optional: the filetree activity hook, see filetree/README.md.
 MSG
