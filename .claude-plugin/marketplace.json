@@ -1,0 +1,8 @@
+{
+  "name": "herdr-mods",
+  "owner": { "name": "cybertron288" },
+  "plugins": [
+    { "name": "session-bar", "source": "./session-bar/claude-plugin", "description": "Claude Code's half of Herdr's session-bar mod: model, effort and usage for the bar" },
+    { "name": "cc-model-router", "source": "./claude-plugins/cc-model-router", "description": "Routes each prompt to Haiku, Sonnet or Opus by how hard it is" }
+  ]
+}
