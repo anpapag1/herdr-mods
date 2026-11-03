@@ -1,5 +1,7 @@
 # filetree
 
+![filetree](../../docs/screenshots/filetree.png)
+
 A file tree for the side panel of any Herdr layout. It follows the focused terminal's
 folder and shows git state and what Claude Code is reading and writing.
 

@@ -1,5 +1,7 @@
 # session-info
 
+![session-info](../../docs/screenshots/session-info.png)
+
 A Claude Code plugin that tracks the session's model, effort, context window and usage:
 `ctx` (context used), `5h` and `7d` (rate limits).
 

@@ -1,5 +1,7 @@
 # yt-music
 
+![yt-music](../../docs/screenshots/yt-music.png)
+
 Now playing from YouTube Music in Google Chrome: the track, the artist, a progress bar and
 previous, back 10 s, play/pause, forward 10 s and next. The block takes no room while
 nothing plays and grows when a track does.

@@ -1,5 +1,7 @@
 # cc-model-router
 
+![cc-model-router](../../docs/screenshots/cc-model-router.png)
+
 A Claude Code plugin that sends each prompt to Haiku, Sonnet or Opus by how hard it is.
 
 - **Rules first:** short follow-ups, commands and plain questions are ranked by rules; when

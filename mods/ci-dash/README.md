@@ -1,5 +1,7 @@
 # ci-dash
 
+![ci-dash](../../docs/screenshots/ci-dash.png)
+
 GitHub Actions for the repository you're working in, titled **CI runs**: runs, manual
 dispatch and build artifacts. It follows the focused terminal's folder.
 

@@ -1,5 +1,7 @@
 # slack
 
+![slack](../../docs/screenshots/slack.png)
+
 Read and answer Slack from Herdr's side panel: direct messages and channels, newest first.
 Click one to open it full height, scroll back through its history, reply, and add emoji
 reactions. Unread counts and notifications keep working while the panel is closed.

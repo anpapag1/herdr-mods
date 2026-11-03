@@ -1,5 +1,7 @@
 # Nightfall layout
 
+![nightfall](../docs/screenshots/nightfall.png)
+
 A graphite layout for the Herdr app: square, flush panes with 28 px headers, a sidebar of
 spaces and agents on the left, a tab bar with panel buttons on top, a side panel on the
 right and a bar of chips at the bottom.

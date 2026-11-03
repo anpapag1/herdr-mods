@@ -1,5 +1,7 @@
 # file-icons
 
+![file-icons](../../docs/screenshots/file-icons.png)
+
 Herdr's Files panel with the icons of VS Code's Material Icon Theme: a lazy file browser for
 the focused terminal's folder with git marks and read-only previews.
 

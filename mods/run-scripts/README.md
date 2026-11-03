@@ -1,5 +1,7 @@
 # run-scripts
 
+![run-scripts](../../docs/screenshots/run-scripts.png)
+
 A run control for JavaScript projects: `▾ script ▶`. It shows while the focused terminal's
 folder, or a folder up to 8 levels above it, has a `package.json` with scripts.
 

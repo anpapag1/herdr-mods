@@ -1,5 +1,7 @@
 # session-bar
 
+![session-bar](../../docs/screenshots/session-bar.png)
+
 A bottom bar of chips for any Herdr layout: the focused terminal's folder and git state on
 the left, Claude Code's model, router and usage on the right. Colors come from the theme.
 

@@ -6,6 +6,8 @@ window for terminals and coding agents.
 Every Herdr mod here takes its colors from the active theme, so it works in any layout.
 The **Nightfall** layout puts them all together.
 
+![Nightfall](docs/screenshots/nightfall.png)
+
 ## What's inside
 
 ### Herdr mods (`mods/`)
@@ -36,6 +38,28 @@ The **Nightfall** layout puts them all together.
 The two plugins are independent. Install either or both: each writes its own file
 (`~/.local/state/herdr-session-info/` and `~/.local/state/herdr-model-router/`), and
 `session-info` only reads the router's state when the router is installed.
+
+## A closer look
+
+[![filetree](docs/screenshots/filetree.png)](mods/filetree)
+
+[![session-bar](docs/screenshots/session-bar.png)](mods/session-bar)
+
+[![run-scripts](docs/screenshots/run-scripts.png)](mods/run-scripts)
+
+[![ci-dash](docs/screenshots/ci-dash.png)](mods/ci-dash)
+
+[![slack](docs/screenshots/slack.png)](mods/slack)
+
+[![yt-music](docs/screenshots/yt-music.png)](mods/yt-music)
+
+[![file-icons](docs/screenshots/file-icons.png)](mods/file-icons)
+
+[![session-info](docs/screenshots/session-info.png)](claude-plugins/session-info)
+
+[![cc-model-router](docs/screenshots/cc-model-router.png)](claude-plugins/cc-model-router)
+
+The screenshots use made-up projects, people and numbers.
 
 ## Install
 
