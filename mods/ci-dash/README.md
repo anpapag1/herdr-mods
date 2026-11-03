@@ -30,8 +30,8 @@ Or on its own: `herdr-app do tab.new --name CI --mod ci-dash`, or
 
 ## Tabs
 
-- **Runs:** the 30 latest runs grouped as In progress, Needs attention, Passed and Other, with
-  a filter box and status chips. Click a run for its jobs and steps, **Open** in the
+- **Runs:** the 30 latest runs in one list, newest first, with a filter box and chips
+  (Running, Failed, Passed, Other) that narrow it. Click a run for its jobs and steps, **Open** in the
   browser, **Cancel** or **Rerun**. Running runs refresh every 5 s, and a notification
   fires when one you watched finishes.
 - **Dispatch:** pick a workflow that allows `workflow_dispatch`, a branch, fill its inputs,
