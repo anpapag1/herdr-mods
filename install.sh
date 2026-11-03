@@ -43,12 +43,24 @@ put "$here/layouts/nightfall.json" "$home_dir/layouts/nightfall.json" || true
 put "$here/layouts/nightfall.svg" "$home_dir/layouts/nightfall.svg" || true
 put "$here/themes/nightfall.json" "$home_dir/themes/nightfall.json" || true
 
+# session-bar's other half runs inside Claude Code and sends it Claude's numbers.
+if command -v claude >/dev/null 2>&1; then
+  claude plugin marketplace add "$here" >/dev/null 2>&1 \
+    || claude plugin marketplace update herdr-mods >/dev/null 2>&1 || true
+  if claude plugin install session-bar@herdr-mods >/dev/null 2>&1; then
+    echo "added  Claude Code plugin session-bar@herdr-mods"
+  else
+    echo "       Claude Code plugin FAILED: run claude plugin install session-bar@herdr-mods"
+  fi
+else
+  echo "skip   Claude Code plugin session-bar (no claude command; see mods/session-bar/README.md)"
+fi
+
 cat <<MSG
 
 Done. Next:
   herdr-app do layout.switch --name nightfall     # or ctrl-shift-l
-  claude plugin marketplace add cybertron288/herdr-mods
-  claude plugin install session-info@herdr-mods
-  claude plugin install cc-model-router@herdr-mods
+  restart Claude Code sessions so the session-bar plugin loads
+Optional: claude plugin install cc-model-router@herdr-mods
 Optional: the filetree activity hook, see mods/filetree/README.md.
 MSG

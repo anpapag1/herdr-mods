@@ -16,7 +16,7 @@ The **Nightfall** layout puts them all together.
 |---|---|---|
 | [`filetree`](mods/filetree) | File tree with Tree / Changed / Recent tabs, git status, search, previews, and Claude's reads and writes highlighted | `file-icons` (icons); optional Claude hook for activity |
 | [`file-icons`](mods/file-icons) | A Files panel with Material Icon Theme icons; also the icon set `filetree` uses | — |
-| [`session-bar`](mods/session-bar) | Bottom bar of chips: folder, branch, ↑ ↓, changed, staged, stashes, and Claude's model, effort, router and usage meters | optional: `session-info`, `cc-model-router` |
+| [`session-bar`](mods/session-bar) | Bottom bar of chips: folder, branch, ↑ ↓, changed, staged, stashes, and Claude's model, effort, router and usage meters | its Claude Code plugin (installed with it); optional: `cc-model-router` |
 | [`run-scripts`](mods/run-scripts) | Run control for JavaScript projects: pick a `package.json` script and run it in a new tab | — |
 | [`ci-dash`](mods/ci-dash) | GitHub Actions for the repo you're in: runs, dispatch, artifacts | `gh`, logged in |
 | [`slack`](mods/slack) | Read and answer Slack in the side panel | a Slack app (set up from the panel) |
@@ -32,12 +32,12 @@ The **Nightfall** layout puts them all together.
 
 | Plugin | What it does |
 |---|---|
-| [`session-info`](claude-plugins/session-info) | Model, effort, context window and usage meters. Outside Herdr it draws them under the prompt; inside Herdr it sends them to `session-bar` instead. |
+| [`session-bar`](claude-plugins/session-bar) | The Claude Code half of the `session-bar` mod: sends model, effort, context window and usage to the bar. Installed with the mod by `./install.sh`. |
 | [`cc-model-router`](claude-plugins/cc-model-router) | Routes each prompt to Haiku, Sonnet or Opus by how hard it is. `/router on`, `off`, `status`. |
 
-The two plugins are independent. Install either or both: each writes its own file
-(`~/.local/state/herdr-session-info/` and `~/.local/state/herdr-model-router/`), and
-`session-info` only reads the router's state when the router is installed.
+The two plugins are independent: each writes its own file
+(`~/.local/state/herdr-session-bar/` and `~/.local/state/herdr-model-router/`), and
+`session-bar` only reads the router's state when the router is installed.
 
 ## A closer look
 
@@ -55,8 +55,6 @@ The two plugins are independent. Install either or both: each writes its own fil
 
 [![file-icons](docs/screenshots/file-icons.png)](mods/file-icons)
 
-[![session-info](docs/screenshots/session-info.png)](claude-plugins/session-info)
-
 [![cc-model-router](docs/screenshots/cc-model-router.png)](claude-plugins/cc-model-router)
 
 The screenshots use made-up projects, people and numbers.
@@ -70,6 +68,9 @@ git clone git@github.com:cybertron288/herdr-mods.git
 cd herdr-mods
 ./install.sh            # copies mods, layout and theme into ~/.config/herdr-app
 ```
+
+It also installs the `session-bar` Claude Code plugin, the part of `session-bar` that runs
+inside Claude Code, when the `claude` command is on your PATH.
 
 The script never overwrites a folder or file you already have; it skips it and says so.
 Pass `--force` to replace them. It runs `herdr-app check` on every mod it copies.
@@ -95,11 +96,12 @@ Each mod's README says which block it fits and what it needs.
 
 ### Claude Code plugins
 
-This repo is also a Claude Code plugin marketplace:
+This repo is also a Claude Code plugin marketplace. `./install.sh` already installs
+`session-bar`; by hand:
 
 ```sh
 claude plugin marketplace add cybertron288/herdr-mods
-claude plugin install session-info@herdr-mods
+claude plugin install session-bar@herdr-mods
 claude plugin install cc-model-router@herdr-mods
 ```
 
@@ -107,8 +109,8 @@ The repository is private, so Claude Code needs git access to it (an SSH key or 
 login that can read it). Restart Claude Code sessions, or run `/reload-plugins`, after
 installing.
 
-If you already have these plugins from another marketplace, disable those first so the
-same plugin doesn't load twice.
+If you already have these plugins from another marketplace, or the older `session-info`
+plugin, disable those first so the same numbers aren't sent twice.
 
 ## Where things live
 
@@ -117,7 +119,7 @@ same plugin doesn't load twice.
 | `~/.config/herdr-app/mods/<name>/` | the Herdr mods |
 | `~/.config/herdr-app/layouts/`, `themes/` | layouts and themes |
 | `~/.config/herdr-app/data/<mod>/` | mod state Herdr keeps (Slack tokens, YT Music state) |
-| `~/.local/state/herdr-session-info/<terminal>.json` | what `session-info` sends to `session-bar` |
+| `~/.local/state/herdr-session-bar/<terminal>.json` | what the `session-bar` plugin sends to the mod |
 | `~/.local/state/herdr-model-router/<terminal>.json` | what `cc-model-router` sends to `session-bar` |
 | `~/.local/state/herdr-filetree/activity.jsonl` | Claude's file activity for `filetree` |
 

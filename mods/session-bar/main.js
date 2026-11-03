@@ -1,8 +1,8 @@
 // session-bar: a bottom bar of chips for any Herdr layout. Left: the focused pane's folder,
 // its branch, and git chips (↑ to push, ↓ to pull, changed, staged, conflicts, stashes).
 // Right, while the focused pane runs Claude Code: model, effort, context window and the
-// ctx / 5h / 7d meters, which the session-info Claude Code mod writes to
-// ~/.local/state/herdr-session-info/<terminal>.json.
+// ctx / 5h / 7d meters, which this mod's Claude Code plugin (claude-plugins/session-bar) writes to
+// ~/.local/state/herdr-session-bar/<terminal>.json.
 // Chips act: changed opens filetree's Changed view, ↑ ↓ open a push / pull menu, the
 // Claude chips open a card with every number. Colors come from theme().
 import { View, div, svg } from "gpui-kit";
@@ -13,7 +13,7 @@ const NAME = "session-bar";
 const ICON = (name) => `mods/${NAME}/${name}.svg`;
 const READ = ["--no-optional-locks", "-c", "core.fsmonitor=false"];
 const METER = { ctx: "ansi6", "5h": "ansi5", "7d": "ansi2" };
-const infoDir = () => `${home()}/.local/state/herdr-session-info`;
+const infoDir = () => `${home()}/.local/state/herdr-session-bar`;
 // cc-model-router (a Claude Code plugin) writes its switch here, one file per terminal.
 const routerDir = () => `${home()}/.local/state/herdr-model-router`;
 
@@ -137,7 +137,7 @@ export default class SessionBar extends View {
     });
   }
 
-  // ── Claude, from the session-info mod ────────────────────────────────────────────────
+  // ── Claude, from the session-bar plugin ──────────────────────────────────────────────
   watchInfo(cx) {
     cx.spawn(async (cx) => {
       try { await exec("mkdir", ["-p", infoDir(), routerDir()]); } catch {}

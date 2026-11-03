@@ -2,7 +2,7 @@
   "name": "herdr-mods",
   "owner": { "name": "cybertron288" },
   "plugins": [
-    { "name": "session-info", "source": "./claude-plugins/session-info", "description": "Model, effort, context window and usage meters; sent to Herdr's session-bar inside Herdr" },
+    { "name": "session-bar", "source": "./claude-plugins/session-bar", "description": "Claude Code's half of Herdr's session-bar mod: model, effort and usage for the bar" },
     { "name": "cc-model-router", "source": "./claude-plugins/cc-model-router", "description": "Routes each prompt to Haiku, Sonnet or Opus by how hard it is" }
   ]
 }

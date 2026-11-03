@@ -4,6 +4,6 @@ export type Info = { model: string; effort: string | null; window: number | null
 
 declare module 'claude-code' {
   interface PluginState {
-    'session-info': { info: Info | null }
+    'session-bar': { info: Info | null }
   }
 }

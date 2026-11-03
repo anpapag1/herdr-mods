@@ -5,12 +5,23 @@
 A bottom bar of chips for any Herdr layout: the focused terminal's folder and git state on
 the left, Claude Code's model, router and usage on the right. Colors come from the theme.
 
+It comes in two parts: this Herdr mod, and a Claude Code plugin of the same name in
+[`claude-plugins/session-bar`](../../claude-plugins/session-bar) that sends Claude's numbers
+to the bar. Without the plugin the git chips still work, but the Claude chips stay empty.
+
 ## Install
+
+`./install.sh` at the repo root installs both parts. By hand:
 
 ```sh
 cp -R mods/session-bar ~/.config/herdr-app/mods/
 herdr-app check ~/.config/herdr-app/mods/session-bar
+claude plugin marketplace add cybertron288/herdr-mods
+claude plugin install session-bar@herdr-mods
 ```
+
+Restart Claude Code sessions afterwards. The Claude chips appear after the session's next
+reply.
 
 Put it in a 28 px block, usually under the terminals:
 
@@ -47,20 +58,14 @@ Clicking the model or a meter opens a card with every number.
 
 ## Where the Claude numbers come from
 
-Herdr can't see inside Claude Code, so two Claude Code plugins from this repo report to it.
-Each one is optional and works without the other.
+Herdr can't see inside Claude Code, so Claude Code plugins report to it:
 
 | Chip | Plugin | File it writes |
 |---|---|---|
-| Model, effort, meters | `session-info` | `~/.local/state/herdr-session-info/<terminal>.json` |
-| Router | `cc-model-router` | `~/.local/state/herdr-model-router/<terminal>.json` |
+| Model, effort, meters | `session-bar` (this mod's plugin) | `~/.local/state/herdr-session-bar/<terminal>.json` |
+| Router | `cc-model-router` (optional) | `~/.local/state/herdr-model-router/<terminal>.json` |
 
 Whether the router plugin is enabled is read from `~/.claude/settings.json`.
 
-```sh
-claude plugin marketplace add cybertron288/herdr-mods
-claude plugin install session-info@herdr-mods
-claude plugin install cc-model-router@herdr-mods
-```
-
-Restart Claude Code sessions afterwards. The chips appear after the session's next reply.
+The plugin draws nothing in Claude's own window by default. Its line under the prompt can
+be turned on for plain terminals; see its [README](../../claude-plugins/session-bar).

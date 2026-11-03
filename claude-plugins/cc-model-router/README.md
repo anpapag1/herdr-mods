@@ -33,8 +33,8 @@ When `HC_TERMINAL_ID` is set, the router writes its switch and last pick to
 `~/.local/state/herdr-model-router/<terminal>.json` at session start, on `/router on|off`,
 and after each decision. The `session-bar` mod shows it as the **Router** chip.
 
-## With session-info
+## With session-bar
 
 Independent: each works without the other, and they write different files.
-`session-info` reads the router's state to show the routed model; the router never reads
-`session-info`.
+The `session-bar` plugin reads the router's state to show the routed model; the router never
+reads `session-bar`.

@@ -3,7 +3,7 @@ import type { EngineInterface, Register } from 'claude-code'
 
 import type { Info, Meter } from '../types'
 
-const infoAtom = atom({ plugin: 'session-info', key: 'info' } as const, null)
+const infoAtom = atom({ plugin: 'session-bar', key: 'info' } as const, null)
 
 const windowLabel = (tokens: number): string =>
   tokens >= 1_000_000 ? `${tokens / 1_000_000}M` : `${Math.round(tokens / 1000)}k`
@@ -59,7 +59,7 @@ async function settingsEffort($: EngineInterface): Promise<string | null> {
 
 type Routed = { model: string; effort: string | null }
 
-// cc-model-router's switch: 'on', 'off', or null when that mod is not loaded. Read untyped so session-info loads without it.
+// cc-model-router's switch: 'on', 'off', or null when that mod is not loaded. Read untyped so this plugin loads without it.
 async function routerSwitch($: EngineInterface): Promise<{ status: 'on' | 'off' | null; pick: Routed | null }> {
   const read = await $.state.get({ plugin: 'cc-model-router', key: 'router' } as never).catch(() => null)
   const state = read?.value as { isOn?: unknown; decision?: { model?: unknown; effort?: unknown } | null } | undefined
@@ -76,8 +76,8 @@ async function routerSwitch($: EngineInterface): Promise<{ status: 'on' | 'off' 
   }
 }
 
-// Inside a Herdr terminal (HC_TERMINAL_ID is set) the info also goes to
-// ~/.local/state/herdr-session-info/<terminal>.json for Herdr's session-bar mod.
+// Inside a Herdr terminal (HC_TERMINAL_ID is set) the info goes to
+// ~/.local/state/herdr-session-bar/<terminal>.json for Herdr's session-bar mod.
 // null: not in Herdr. Looked up once per load.
 let herdrFile: Promise<string | null> | null = null
 
@@ -87,7 +87,7 @@ function herdrPath($: EngineInterface): Promise<string | null> {
     .then(r => {
       const [terminal, home] = r.stdout.split('\n')
 
-      return r.exitCode === 0 && terminal && home && /^[\w.-]+$/.test(terminal) ? `${home}/.local/state/herdr-session-info/${terminal}.json` : null
+      return r.exitCode === 0 && terminal && home && /^[\w.-]+$/.test(terminal) ? `${home}/.local/state/herdr-session-bar/${terminal}.json` : null
     })
     .catch(() => null)
 
@@ -137,7 +137,10 @@ async function refresh($: EngineInterface): Promise<void> {
 
 let sharedThisLoad = false
 
-export const register: Register = on => {
+export const register: Register = (on, options) => {
+  // Off unless turned on in /config: Herdr's bar is where these numbers live.
+  const promptLine = options.promptLine === true || options.promptLine === 'true'
+
   on('session.start', async ($, e, next) => {
     const result = await next(e)
     await refresh($)
@@ -178,13 +181,13 @@ export const register: Register = on => {
     return result
   })
 
-  // One line under the prompt hint: usage meters and model on the left, the branch at the right edge.
+  // With promptLine on, one line under the prompt hint: usage meters and model on the left, the branch at the right edge.
   on('ui.render', { component: 'PromptHint' }, async ($, e, next) => {
     const info = await read($, infoAtom)
     const theirs = await next(e)
 
     // Inside Herdr its own bottom bar shows all of this; the line under the prompt would repeat it.
-    if (info === null || (await herdrPath($)) !== null) {
+    if (!promptLine || info === null || (await herdrPath($)) !== null) {
       return theirs
     }
 
