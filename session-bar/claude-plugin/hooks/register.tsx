@@ -84,8 +84,14 @@ let herdrFile: Promise<string | null> | null = null
 function herdrPath($: EngineInterface): Promise<string | null> {
   herdrFile ??= $.process
     .run(['sh', '-c', 'printf "%s\\n%s" "$HC_TERMINAL_ID" "$HOME"'])
+    .then(r => (r.exitCode === 0 ? r : Promise.reject(new Error('sh failed'))))
+    // Windows terminals started by Herdr have no sh on PATH and no HOME: ask cmd instead.
+    .catch(() => $.process.run(['cmd', '/d', '/c', 'echo %HC_TERMINAL_ID%&echo %USERPROFILE%']))
     .then(r => {
-      const [terminal, home] = r.stdout.split('\n')
+      const [terminal, rawHome] = r.stdout.split(/\r?\n/)
+      // Windows: sh reports $HOME as an MSYS path (/c/Users/me), which the file writer would read as C:\c\Users\me.
+      const msys = /^\/([a-zA-Z])(\/.*)?$/.exec(rawHome ?? '')
+      const home = msys ? `${msys[1].toUpperCase()}:${msys[2] ?? '/'}` : (rawHome ?? '').replace(/\\/g, '/')
 
       return r.exitCode === 0 && terminal && home && /^[\w.-]+$/.test(terminal) ? `${home}/.local/state/herdr-session-bar/${terminal}.json` : null
     })
